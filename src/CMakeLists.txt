@@ -10,5 +10,6 @@ target_include_directories(bsa_packer
 target_compile_definitions(bsa_packer PRIVATE BSAPACKER_LIBRARY)
 target_link_libraries(bsa_packer
 	PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../lib/DirectXTex.lib)
+target_include_directories(bsa_packer PUBLIC ${DDS_ROOT})
 
 mo2_install_target(bsa_packer)
