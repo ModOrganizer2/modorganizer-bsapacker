@@ -14,6 +14,7 @@ namespace BsaPacker
 		virtual QString GetFileExtension() const = 0;
 		virtual QString GetArchiveFullPath(bsa_archive_type_e, const IModDto*) const = 0;
 		virtual QString Infix(bsa_archive_type_e type) const = 0;
+		virtual QString Suffix(const QString& pathNoExt) const = 0;
 	};
 }
 

@@ -11,7 +11,7 @@ namespace BsaPacker {
 		OverrideFileService(const IFileWriterService* fileWriterService);
 		bool CreateOverrideFile(const int nexusId,
 			const QString& modPath,
-			const QString& archiveNameBase) const override;
+			const QStringList& archiveNames) const override;
 
 	private:
 		const IFileWriterService* m_FileWriterService = nullptr;

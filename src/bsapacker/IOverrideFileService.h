@@ -1,7 +1,7 @@
 #ifndef IOVERRIDEFILESERVICE_H
 #define IOVERRIDEFILESERVICE_H
 
-#include <QString>
+#include <QStringList>
 
 namespace BsaPacker {
 	class IOverrideFileService {
@@ -9,7 +9,7 @@ namespace BsaPacker {
 		virtual ~IOverrideFileService() = default;
 		virtual bool CreateOverrideFile(const int nexusId,
 			const QString& modPath,
-			const QString& archiveNameBase) const = 0;
+			const QStringList& archiveNames) const = 0;
 	};
 } // namespace BsaPacker
 

@@ -59,7 +59,7 @@ namespace BsaPacker
 		const MOBase::IModList* const list = m_Organizer->modList();
 		const std::function<bool(const QString&)> modStateValid = [&](const QString& mod)
 		{
-			return list->state(mod) & MOBase::IModList::STATE_VALID;
+			return !mod.endsWith("_separator", Qt::CaseInsensitive) && (list->state(mod) & MOBase::IModList::STATE_VALID);
 		};
 		return QtConcurrent::blockingFiltered(list->allMods(), modStateValid);
 	}

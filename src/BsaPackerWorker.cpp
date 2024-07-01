@@ -29,24 +29,33 @@ namespace BsaPacker
 
 	void BsaPackerWorker::DoWork() const
 	{
+		QStringList createdArchives;
 		const std::unique_ptr<IModDto> modDto = this->m_ModDtoFactory->Create(); // handles PackerDialog and validation, implements Null Object pattern
 		const std::vector<bsa_archive_type_e> types = this->m_ArchiveBuilderFactory->GetArchiveTypes(modDto.get());
 		for (auto&& type : types) {
 			const std::unique_ptr<IArchiveBuilder> builder = this->m_ArchiveBuilderFactory->Create(type, modDto.get());
 			ArchiveBuildDirector director(this->m_SettingsService, builder.get());
 			director.Construct(); // must check if cancelled
-			const std::unique_ptr<libbsarch::bs_archive_auto> archive = builder->getArchive();
-			if (archive) {
-				const QString& archiveFullPath = this->m_ArchiveNameService->GetArchiveFullPath(type, modDto.get());
-				bool res = this->m_ArchiveAutoService->CreateBSA(archive.get(), archiveFullPath, type);
-				if (res)
-					QMessageBox::information(nullptr, "", QObject::tr("Created") + " \"" + archiveFullPath + "\"");
+			const std::vector<std::unique_ptr<libbsarch::bs_archive_auto>> archives = builder->getArchives();
+			for (const auto& archive : archives) {
+				if (archive) {
+					const QFileInfo fileInfo(this->m_ArchiveNameService->GetArchiveFullPath(type, modDto.get()));
+					bool res = this->m_ArchiveAutoService->CreateBSA(archive.get(), fileInfo.absoluteFilePath(), type);
+					if (res) {
+						createdArchives.append(fileInfo.baseName());
+					}
+				}
 			}
 		}
+
+		if (!createdArchives.isEmpty()) {
+			QMessageBox::information(nullptr, "",
+        QObject::tr("Created archive(s):") + "\n" + createdArchives.join(modDto->ArchiveExtension() +",\n") + modDto->ArchiveExtension());
+			this->m_OverrideFileService->CreateOverrideFile(modDto->NexusId(), modDto->Directory(), createdArchives);
+		}
+
 		const std::unique_ptr<IDummyPluginService> pluginService = this->m_DummyPluginServiceFactory->Create();
 		pluginService->CreatePlugin(modDto->Directory(), modDto->ArchiveName());
-
-		this->m_OverrideFileService->CreateOverrideFile(modDto->NexusId(), modDto->Directory(), modDto->ArchiveName());
 
 		if (!modDto->Directory().isEmpty()) {
 			this->m_HideLooseAssetService->HideLooseAssets(modDto->Directory());

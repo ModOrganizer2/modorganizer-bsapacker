@@ -11,9 +11,9 @@ namespace BsaPacker
 	{
 	}
 
-	std::unique_ptr<libbsarch::bs_archive_auto> NullArchiveBuilder::getArchive()
+	std::vector<std::unique_ptr<libbsarch::bs_archive_auto>> NullArchiveBuilder::getArchives()
 	{
-		return nullptr;
+		return {};
 	}
 
 	uint32_t NullArchiveBuilder::getFileCount() const
