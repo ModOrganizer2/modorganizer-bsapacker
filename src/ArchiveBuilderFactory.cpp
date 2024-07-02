@@ -1,6 +1,7 @@
 #include <bsapacker/ArchiveBuilderFactory.h>
 
 #include <bsapacker/GeneralArchiveBuilder.h>
+#include <bsapacker/MorrowindArchiveBuilder.h>
 #include <bsapacker/NullArchiveBuilder.h>
 #include <bsapacker/TextureArchiveBuilder.h>
 #include <bsapacker/TexturelessArchiveBuilder.h>
@@ -41,6 +42,7 @@ namespace BsaPacker
 	{
 		switch (archiveType) {
 			case baTES3:
+				return std::make_unique<MorrowindArchiveBuilder>(this->m_ArchiveBuilderHelper, modDto->Directory(), archiveType);
 			case baTES4:
 			case baFO3:
 			case baSSE:

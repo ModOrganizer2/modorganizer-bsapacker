@@ -1,25 +1,24 @@
-#include <bsapacker/TextureArchiveBuilder.h>
+#include <bsapacker/MorrowindArchiveBuilder.h>
 
 #include <bsapacker/ArchiveBuilderHelper.h>
 #include <QDirIterator>
 #include <QApplication>
 #include <QDebug>
-#include "DirectXTex.h"
 
 using namespace libbsarch;
 
 namespace BsaPacker
 {
-	TextureArchiveBuilder::TextureArchiveBuilder(const IArchiveBuilderHelper* archiveBuilderHelper, const QDir& rootDir, const bsa_archive_type_t& type)
+	MorrowindArchiveBuilder::MorrowindArchiveBuilder(const IArchiveBuilderHelper* archiveBuilderHelper, const QDir& rootDir, const bsa_archive_type_t& type)
 		: m_ArchiveBuilderHelper(archiveBuilderHelper), m_RootDirectory(rootDir)
 	{
 		this->m_Cancelled = false;
 		this->m_Archive = std::make_unique<libbsarch::bs_archive_auto>(type);
 	}
 
-	uint32_t TextureArchiveBuilder::setFiles()
+	uint32_t MorrowindArchiveBuilder::setFiles()
 	{
-		uint32_t compressibleFiles = 0;
+		uint32_t incompressibleFiles = 0;
 		int count = 0;
 		const auto& dirString = (this->m_RootDirectory.path() + '/').toStdWString();
 		const auto& rootDirFiles = this->m_ArchiveBuilderHelper->getRootDirectoryFilenames(dirString);
@@ -38,61 +37,43 @@ namespace BsaPacker
 			const bool ignored = this->m_ArchiveBuilderHelper->isFileIgnorable(filepath.toStdWString(), rootDirFiles);
 
 			Q_EMIT this->valueChanged(++count);
-			if (ignored || !filepath.endsWith(".dds", Qt::CaseInsensitive)) {
+			if (ignored) {
 				continue;
 			}
 
-			++compressibleFiles;
+			++incompressibleFiles;
 			auto fileBlob = disk_blob(
 				 dirString,
 				 filepath.toStdWString());
 			this->m_Archive->add_file_from_disk(fileBlob);
 			qDebug() << "file is: " << filepath;
 		}
-		this->m_Archive->set_compressed(true);
-		this->m_Archive->set_dds_callback(TextureArchiveBuilder::DDSCallback, this->getRootPath().toStdWString());
-		return compressibleFiles;
+		this->m_Archive->set_compressed(false);
+		return incompressibleFiles;
 	}
 
-	void TextureArchiveBuilder::setShareData(const bool value)
+	void MorrowindArchiveBuilder::setShareData(const bool value)
 	{
 		this->m_Archive->set_share_data(value);
 	}
 
-	std::unique_ptr<libbsarch::bs_archive_auto> TextureArchiveBuilder::getArchive()
+	std::unique_ptr<libbsarch::bs_archive_auto> MorrowindArchiveBuilder::getArchive()
 	{
 		return std::move(this->m_Archive);
 	}
 
-	uint32_t TextureArchiveBuilder::getFileCount() const
+	uint32_t MorrowindArchiveBuilder::getFileCount() const
 	{
 		return this->m_ArchiveBuilderHelper->getFileCount(this->m_RootDirectory.path().toStdWString());
 	}
 
-	QString TextureArchiveBuilder::getRootPath() const
+	QString MorrowindArchiveBuilder::getRootPath() const
 	{
 		return this->m_RootDirectory.path();
 	}
 
-	void TextureArchiveBuilder::cancel()
+	void MorrowindArchiveBuilder::cancel()
 	{
 		this->m_Cancelled = true;
-	}
-
-	void TextureArchiveBuilder::DDSCallback(bsa_archive_t archive, const wchar_t* file_path, bsa_dds_info_t* dds_info, void* context)
-	{
-		const auto& path = *static_cast<std::wstring*>(context) + L'/' + std::wstring(file_path);
-
-		auto image = std::make_unique<DirectX::ScratchImage>();
-		DirectX::TexMetadata info;
-
-		const auto hr = LoadFromDDSFile(path.c_str(), DirectX::DDS_FLAGS_NONE, &info, *image);
-
-		if (FAILED(hr))
-			throw std::runtime_error("Failed to open DDS");
-
-		dds_info->width = static_cast<uint32_t>(info.width);
-		dds_info->height = static_cast<uint32_t>(info.height);
-		dds_info->mipmaps = static_cast<uint32_t>(info.mipLevels);
 	}
 } // namespace BsaPacker
