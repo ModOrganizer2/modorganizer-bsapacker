@@ -15,7 +15,8 @@ target_link_libraries(bsa_packer PRIVATE mo2::uibase Qt6::Concurrent mo2::libbsa
 target_include_directories(bsa_packer PRIVATE ${BEXT_DI_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR})
 target_compile_definitions(bsa_packer PRIVATE BSAPACKER_LIBRARY)
 
-mo2_install_plugin(bsa_packer)
+# need to deploy this here as MO2 does not depends on Qt6::Concurrent
+install(FILES $<TARGET_FILE:Qt6::Concurrent> DESTINATION bin/dlls)
 
 # this is done by modorganizer itself now
 #
