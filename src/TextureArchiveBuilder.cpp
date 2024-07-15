@@ -23,7 +23,6 @@ namespace BsaPacker
 
 	uint32_t TextureArchiveBuilder::setFiles()
 	{
-		uint32_t incompressibleFiles = 0;
 		uint32_t compressibleFiles = 0;
 		int count = 0;
 		qint64 currentSize = 0;
@@ -54,24 +53,23 @@ namespace BsaPacker
 			currentSize += fileInfo.size();
 			if (currentSize > SIZE_LIMIT) {
 				currentSize = fileInfo.size();
-				this->m_Archives.back()->set_compressed(!static_cast<bool>(incompressibleFiles));
+				this->m_Archives.back()->set_compressed(true);
 				this->m_Archives.back()->set_dds_callback(TextureArchiveBuilder::DDSCallback, this->getRootPath().toStdWString());
-				incompressibleFiles = 0;
 				compressibleFiles = 0;
 				this->m_Archives.emplace_back(std::make_unique<libbsarch::bs_archive_auto>(this->m_ArchiveType));
 				this->setShareData(true);
 			}
 
-			this->m_ArchiveBuilderHelper->isIncompressible(filepath.toStdWString()) ? ++incompressibleFiles : ++compressibleFiles;
+			++compressibleFiles;
 			auto fileBlob = disk_blob(
 				 dirString,
 				 filepath.toStdWString());
 			this->m_Archives.back()->add_file_from_disk(fileBlob);
 			qDebug() << "file is: " << filepath;
 		}
-		this->m_Archives.back()->set_compressed(!static_cast<bool>(incompressibleFiles));
+		this->m_Archives.back()->set_compressed(true);
 		this->m_Archives.back()->set_dds_callback(TextureArchiveBuilder::DDSCallback, this->getRootPath().toStdWString());
-		return incompressibleFiles + compressibleFiles;
+		return compressibleFiles;
 	}
 
 	void TextureArchiveBuilder::setShareData(const bool value)
