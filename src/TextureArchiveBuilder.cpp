@@ -99,7 +99,7 @@ namespace BsaPacker
 		this->m_Cancelled = true;
 	}
 
-	void TextureArchiveBuilder::DDSCallback(bsa_archive_t archive, const wchar_t* file_path, bsa_dds_info_t* dds_info, void* context)
+	void TextureArchiveBuilder::DDSCallback(bsa_archive_t, const wchar_t* file_path, bsa_dds_info_t* dds_info, void* context)
 	{
 		const auto& path = *static_cast<std::wstring*>(context) + L'/' + std::wstring(file_path);
 

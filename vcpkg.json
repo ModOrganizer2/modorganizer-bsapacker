@@ -1,0 +1,15 @@
+{
+  "dependencies": [
+    "mo2-cmake",
+    "mo2-libbsarch",
+    "mo2-dds-header",
+    "directxtex",
+    "bext-di"
+  ],
+  "features": {
+    "testing": {
+      "description": "Build BSA Packer tests.",
+      "dependencies": ["gtest"]
+    }
+  }
+}

@@ -5,7 +5,7 @@
 
 namespace BsaPacker
 {
-	bool ArchiveAutoService::CreateBSA(libbsarch::bs_archive_auto* archive, const QString& archiveName, const bsa_archive_type_e type) const
+	bool ArchiveAutoService::CreateBSA(libbsarch::bs_archive_auto* archive, const QString& archiveName, const bsa_archive_type_e) const
 	{
 		QProgressDialog savingDialog;
 		savingDialog.setWindowFlags(savingDialog.windowFlags() & ~Qt::WindowCloseButtonHint);

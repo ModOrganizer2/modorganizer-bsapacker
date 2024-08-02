@@ -1,6 +1,6 @@
 #pragma once
 
-#include <libbsarch.h>
+#include <libbsarch/libbsarch.h>
 #include <string>
 #include <stdexcept>
 #include <QDebug>

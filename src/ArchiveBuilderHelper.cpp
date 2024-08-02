@@ -1,7 +1,7 @@
 #include <bsapacker/ArchiveBuilderHelper.h>
 
 #include <algorithm>
-#include <boost/algorithm/string.hpp>
+#include <ranges>
 
 #include "SettingsService.h"
 
@@ -61,13 +61,13 @@ namespace BsaPacker
 	bool ArchiveBuilderHelper::isExtensionBlacklisted(const path& filepath) const
 	{
 		const auto& setting = this->m_SettingsService->GetPluginSetting(SettingsService::SETTING_BLACKLISTED_FILES).toString().toStdString();
-		std::set<std::string> blacklist;
-		boost::split(blacklist, setting, [](char c){return c == ';';});
-
-		const auto& extension = filepath.extension().string();
-		const auto& count = blacklist.count(extension);
-		const auto& result = count > 0;
-		return result;
+		const auto &extension = filepath.extension().string();
+		const auto count = std::ranges::count(
+				setting | std::views::split(' '),
+				extension,
+				[](auto r)
+				{ return std::string_view(r.data(), r.size()); });
+		return count > 0;
 	}
 
 	bool ArchiveBuilderHelper::doesPathContainFiles(const path& filepath, const std::vector<path::string_type>& files) const

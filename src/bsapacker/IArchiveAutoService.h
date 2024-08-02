@@ -1,7 +1,7 @@
 #ifndef IARCHIVEAUTOSERVICE_H
 #define IARCHIVEAUTOSERVICE_H
 
-#include <bs_archive_auto.hpp>
+#include <libbsarch/bs_archive_auto.hpp>
 #include <bsapacker/IModDto.h>
 
 namespace BsaPacker

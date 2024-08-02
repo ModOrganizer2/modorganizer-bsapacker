@@ -2,7 +2,7 @@
 #define IARCHIVEBUILDER_H
 
 #include <bsapacker/IEmitsValueChanged.h>
-#include <bs_archive_auto.hpp>
+#include <libbsarch/bs_archive_auto.hpp>
 
 namespace BsaPacker
 {
