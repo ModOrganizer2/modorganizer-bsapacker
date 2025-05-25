@@ -42,7 +42,7 @@ namespace BsaPacker
 					const QFileInfo fileInfo(this->m_ArchiveNameService->GetArchiveFullPath(type, modDto.get()));
 					bool res = this->m_ArchiveAutoService->CreateBSA(archive.get(), fileInfo.absoluteFilePath(), type);
 					if (res) {
-						createdArchives.append(fileInfo.baseName());
+						createdArchives.append(fileInfo.completeBaseName());
 					}
 				}
 			}
