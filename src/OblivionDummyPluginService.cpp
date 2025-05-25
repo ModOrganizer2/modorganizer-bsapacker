@@ -24,4 +24,3 @@ namespace BsaPacker
 			sizeof(OblivionDummyPluginService::RAW_OBLIVION));
 	}
 }
-

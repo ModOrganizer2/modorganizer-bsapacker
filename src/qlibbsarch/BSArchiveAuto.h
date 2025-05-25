@@ -5,7 +5,7 @@
 #include <QMap>
 
 /*!
- * \brief A convenience class for BSArchive and BSArchiveEntries. Its performance is worse than using these 
+ * \brief A convenience class for BSArchive and BSArchiveEntries. Its performance is worse than using these
  * two classes separately, but it removes the need to manually handle the BSArchiveEntries.
  */
 class BSArchiveAuto

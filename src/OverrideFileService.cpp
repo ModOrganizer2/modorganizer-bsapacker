@@ -38,7 +38,7 @@ namespace BsaPacker {
 				res = false;
 			}
 		}
-		
+
 		return res;
 	}
 } // namespace BsaPacker

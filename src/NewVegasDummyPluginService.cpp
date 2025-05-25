@@ -26,4 +26,3 @@ namespace BsaPacker
 			sizeof(NewVegasDummyPluginService::RAW_NEWVEGAS));
 	}
 }
-

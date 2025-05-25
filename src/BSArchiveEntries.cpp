@@ -63,4 +63,3 @@ bsa_entry_list_t BSArchiveEntries::getEntries() const
 {
 	return _entries;
 }
-

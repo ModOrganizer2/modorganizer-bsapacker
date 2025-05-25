@@ -37,7 +37,7 @@ namespace BsaPacker
 			if (primarySource == "FalloutNV") { // TTW
 				return NexusId::NewVegas;
 			}
-		}		
+		}
 		return nexusId;
 	}
 

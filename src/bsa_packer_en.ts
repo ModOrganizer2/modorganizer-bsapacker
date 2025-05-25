@@ -59,12 +59,13 @@
     </message>
     <message>
         <location filename="SettingsService.cpp" line="14"/>
-        <source>Specify a semi-colon seperated list of file extensions to ignore when packing.</source>
+        <source>Specify a semi-colon separated list of file extensions to ignore when packing.</source>
+        <oldsource>Specify a semi-colon seperated list of file extensions to ignore when packing.</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="SettingsService.cpp" line="15"/>
-        <source>Compress archives if they do not contain incompressible files.</source>
+        <source>Compress archives if they do not contain incompressible files. Texture archives for Fallout 4 and Starfield will always be compressed. Morrowind archives will never be compressed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

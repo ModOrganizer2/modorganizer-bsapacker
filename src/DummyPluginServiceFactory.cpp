@@ -52,4 +52,3 @@ namespace BsaPacker
 		return std::make_unique<NullDummyPluginService>();
 	}
 } // namespace BsaPacker
-
