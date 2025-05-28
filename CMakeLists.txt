@@ -6,8 +6,8 @@ project(bsa_packer)
 
 add_subdirectory(src)
 
-set(BSAPACKER_TESTING ${BSAPACKER_TESTING} CACHE BOOL "build tests for bsapacker plugin")
-if(BSAPACKER_TESTING)
+set(BUILD_TESTING ${BUILD_TESTING} CACHE BOOL "build tests for bsapacker plugin")
+if(BUILD_TESTING)
 	enable_testing()
 	add_subdirectory(tests)
 endif()
