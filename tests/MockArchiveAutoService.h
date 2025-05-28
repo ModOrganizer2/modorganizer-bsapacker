@@ -6,5 +6,5 @@ using namespace BsaPacker;
 class MockArchiveAutoService : public IArchiveAutoService
 {
 public:
-	MOCK_METHOD(void, CreateBSA, (libbsarch::bs_archive_auto*, const QString&, bsa_archive_type_e), (const, override));
+	MOCK_METHOD(bool, CreateBSA, (libbsarch::bs_archive_auto *, const QString &, bsa_archive_type_e), (const, override));
 };

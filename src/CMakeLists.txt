@@ -11,8 +11,8 @@ find_package(DirectXTex CONFIG REQUIRED)
 add_library(bsa_packer SHARED)
 mo2_configure_plugin(bsa_packer WARNINGS OFF)
 
-target_link_libraries(bsa_packer PRIVATE mo2::uibase Qt6::Concurrent mo2::libbsarch Microsoft::DirectXTex)
-target_include_directories(bsa_packer PRIVATE ${BEXT_DI_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(bsa_packer PUBLIC mo2::uibase Qt6::Concurrent mo2::libbsarch Microsoft::DirectXTex)
+target_include_directories(bsa_packer PUBLIC ${BEXT_DI_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR})
 target_compile_definitions(bsa_packer PRIVATE BSAPACKER_LIBRARY)
 
 # need to deploy this here as MO2 does not depends on Qt6::Concurrent

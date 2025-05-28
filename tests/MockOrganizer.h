@@ -14,6 +14,7 @@ public:
 	MOCK_METHOD(QString, overwritePath, (), (const, override));
 	MOCK_METHOD(QString, basePath, (), (const, override));
 	MOCK_METHOD(QString, modsPath, (), (const, override));
+	MOCK_METHOD(Version, version, (), (const, override));
 	MOCK_METHOD(VersionInfo, appVersion, (), (const, override));
 	MOCK_METHOD(IModInterface*, createMod, (GuessedValue<QString> &name), (override));
 	MOCK_METHOD(IPluginGame*, getGame, (const QString &gameName), (const, override));
@@ -37,13 +38,16 @@ public:
 	MOCK_METHOD(MOBase::IPluginList*, pluginList, (), (const, override));
 	MOCK_METHOD(MOBase::IModList*, modList, (), (const, override));
 	MOCK_METHOD(MOBase::IProfile*, profile, (), (const, override));
+	MOCK_METHOD(IGameFeatures*, gameFeatures, (), (const, override));
 	MOCK_METHOD(HANDLE, startApplication, (const QString &executable, const QStringList &args, const QString &cwd, const QString &profile, const QString &forcedCustomOverwrite, bool ignoreCustomOverwrite), (override));
 	MOCK_METHOD(bool, waitForApplication, (HANDLE handle, bool refresh, LPDWORD exitCode), (const, override));
 	MOCK_METHOD(bool, onAboutToRun, (const std::function<bool(const QString&)> &func), (override));
+	MOCK_METHOD(bool, onAboutToRun, (const std::function<bool(const QString&, const QDir&, const QString&)>&), (override));
 	MOCK_METHOD(bool, onFinishedRun, (const std::function<void(const QString&, unsigned int)> &func), (override));
 	MOCK_METHOD(void, refresh, (bool saveChanges), (override));
 	MOCK_METHOD(MOBase::IPluginGame const *, managedGame, (), (const, override));
 	MOCK_METHOD(bool, onUserInterfaceInitialized, (const std::function<void (QMainWindow *)> &), (override));
+	MOCK_METHOD(bool, onNextRefresh, (const std::function<void()> &, bool), (override));
 	MOCK_METHOD(bool, onProfileCreated, (const std::function<void(MOBase::IProfile*)>&), (override));
 	MOCK_METHOD(bool, onProfileRemoved, (const std::function<void(const QString&)>&), (override));
 	MOCK_METHOD(bool, onProfileRenamed, (const std::function<void(MOBase::IProfile*, QString const&, QString const&)>&), (override));

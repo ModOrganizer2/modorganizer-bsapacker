@@ -9,6 +9,7 @@
 #include "MockArchiveAutoService.h"
 #include "MockHideLooseAssetService.h"
 #include "MockArchiveNameService.h"
+#include "MockOverrideFileService.h"
 
 using namespace BsaPacker;
 using ::testing::NaggyMock;
@@ -18,7 +19,8 @@ namespace BsaPackerTests
 	class BsaPackerWorkerFacts : public ::testing::Test
 	{
 	protected:
-		void SetUp() override {
+		void SetUp() override
+		{
 			naggyMockSettingsService = new NaggyMock<MockSettingsService>();
 			naggyMockModDtoFactory = new NaggyMock<MockModDtoFactory>();
 			naggyMockArchiveBuilderFactory = new NaggyMock<MockArchiveBuilderFactory>();
@@ -26,9 +28,11 @@ namespace BsaPackerTests
 			naggyMockDummyPluginServiceFactory = new NaggyMock<MockDummyPluginServiceFactory>();
 			naggyMockHideLooseAssetService = new NaggyMock<MockHideLooseAssetService>();
 			naggyMockArchiveNameService = new NaggyMock<MockArchiveNameService>();
+			naggyOverrideFileService = new NaggyMock<MockOverrideFileService>();
 		}
 
-		void TearDown() override {
+		void TearDown() override
+		{
 			delete naggyMockSettingsService;
 			delete naggyMockModDtoFactory;
 			delete naggyMockArchiveBuilderFactory;
@@ -38,13 +42,14 @@ namespace BsaPackerTests
 			delete naggyMockArchiveNameService;
 		}
 
-		NaggyMock<MockSettingsService>* naggyMockSettingsService;
-		NaggyMock<MockModDtoFactory>* naggyMockModDtoFactory;
-		NaggyMock<MockArchiveBuilderFactory>* naggyMockArchiveBuilderFactory;
-		NaggyMock<MockArchiveAutoService>* naggyMockArchiveAutoService;
-		NaggyMock<MockDummyPluginServiceFactory>* naggyMockDummyPluginServiceFactory;
-		NaggyMock<MockHideLooseAssetService>* naggyMockHideLooseAssetService;
-		NaggyMock<MockArchiveNameService>* naggyMockArchiveNameService;
+		NaggyMock<MockSettingsService> *naggyMockSettingsService;
+		NaggyMock<MockModDtoFactory> *naggyMockModDtoFactory;
+		NaggyMock<MockArchiveBuilderFactory> *naggyMockArchiveBuilderFactory;
+		NaggyMock<MockArchiveAutoService> *naggyMockArchiveAutoService;
+		NaggyMock<MockDummyPluginServiceFactory> *naggyMockDummyPluginServiceFactory;
+		NaggyMock<MockHideLooseAssetService> *naggyMockHideLooseAssetService;
+		NaggyMock<MockArchiveNameService> *naggyMockArchiveNameService;
+		NaggyMock<MockOverrideFileService> *naggyOverrideFileService;
 	};
 
 	TEST_F(BsaPackerWorkerFacts, Ctor_Always_Constructs)
@@ -56,6 +61,7 @@ namespace BsaPackerTests
 			naggyMockArchiveAutoService,
 			naggyMockDummyPluginServiceFactory,
 			naggyMockHideLooseAssetService,
-			naggyMockArchiveNameService));
+			naggyMockArchiveNameService,
+			naggyOverrideFileService));
 	}
 }
