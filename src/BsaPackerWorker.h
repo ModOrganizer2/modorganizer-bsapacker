@@ -3,6 +3,7 @@
 
 #include "bsapacker_global.h"
 #include <bsapacker/ISettingsService.h>
+#include <bsapacker/IModContext.h>
 #include <bsapacker/IModDtoFactory.h>
 #include <bsapacker/IArchiveBuilderFactory.h>
 #include <bsapacker/IArchiveAutoService.h>
@@ -18,6 +19,7 @@ namespace BsaPacker
 	public:
 		BsaPackerWorker(
 			const ISettingsService* settingsService,
+			const IModContext* modContext,
 			const IModDtoFactory* modDtoFactory,
 			const IArchiveBuilderFactory* archiveBuilderFactory,
 			const IArchiveAutoService* archiveAutoService,
@@ -29,6 +31,7 @@ namespace BsaPacker
 
 	private:
 		const ISettingsService* m_SettingsService = nullptr;
+		const IModContext* m_ModContext = nullptr;
 		const IModDtoFactory* m_ModDtoFactory = nullptr;
 		const IArchiveBuilderFactory* m_ArchiveBuilderFactory = nullptr;
 		const IArchiveAutoService* m_ArchiveAutoService = nullptr;

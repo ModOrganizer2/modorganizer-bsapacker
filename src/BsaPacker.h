@@ -17,15 +17,14 @@ namespace BsaPacker
 #endif
 
 	public:
-		// IPlugin interface
 		bool init(MOBase::IOrganizer* moInfo) override;
 		[[nodiscard]] QString name() const override;
+		[[nodiscard]] std::vector<std::shared_ptr<const MOBase::IPluginRequirement>> requirements() const override;
 		[[nodiscard]] QString author() const override;
 		[[nodiscard]] QString description() const override;
 		[[nodiscard]] MOBase::VersionInfo version() const override;
 		[[nodiscard]] QList<MOBase::PluginSetting> settings() const override;
 
-		// IPluginTool interface
 		[[nodiscard]] QString displayName() const override;
 		[[nodiscard]] QString tooltip() const override;
 		[[nodiscard]] QIcon icon() const override;
