@@ -23,4 +23,3 @@ install(FILES $<TARGET_FILE:Qt6::Concurrent> DESTINATION bin/dlls)
 # install(FILES $<TARGET_FILE:mo2::libbsarch> DESTINATION bin/dlls)
 
 mo2_install_plugin(bsa_packer)
-
