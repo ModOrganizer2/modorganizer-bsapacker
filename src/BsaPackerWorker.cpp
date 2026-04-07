@@ -1,6 +1,7 @@
 #include "BsaPackerWorker.h"
 
 #include <QDir>
+#include <QFile>
 #include <QFileInfo>
 #include <QMessageBox>
 
@@ -67,6 +68,13 @@ namespace BsaPacker
 			}
 		} else {
 			const QString archivePath = QDir(modDto->Directory()).filePath(modDto->ArchiveName() + modDto->ArchiveExtension());
+			const QFileInfo existingArchiveInfo(archivePath);
+			if (existingArchiveInfo.exists() && existingArchiveInfo.isFile() && !QFile::remove(archivePath)) {
+				QMessageBox::warning(nullptr, QString(),
+					QObject::tr("Failed to replace existing archive: %1").arg(existingArchiveInfo.fileName()));
+				return;
+			}
+
 			QString errorMessage;
 			if (!this->m_ModContext->CreateArchive(modDto->Directory(), archivePath, &errorMessage)) {
 				QMessageBox::warning(nullptr, QString(),
@@ -97,3 +105,5 @@ namespace BsaPacker
 		}
 	}
 }
+
+
