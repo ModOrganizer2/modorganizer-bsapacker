@@ -18,9 +18,28 @@
 #include <bsapacker/ModDtoFactory.h>
 #include <QMessageBox>
 #include <iplugingame.h>
+#include <uibase/game_features/dataarchives.h>
+#include <uibase/game_features/gamearchivehandler.h>
+#include <uibase/game_features/igamefeatures.h>
 
 #include <boost/di.hpp>
 namespace di = boost::di;
+
+namespace
+{
+	bool supportsArchivePacking(MOBase::IOrganizer* organizer)
+	{
+		if (organizer == nullptr || organizer->gameFeatures() == nullptr) {
+			return false;
+		}
+
+		if (organizer->gameFeatures()->gameFeature<MOBase::DataArchives>() != nullptr) {
+			return true;
+		}
+
+		return organizer->gameFeatures()->gameFeature<MOBase::GameArchiveHandler>() != nullptr;
+	}
+}
 
 namespace BsaPacker
 {
@@ -35,6 +54,15 @@ namespace BsaPacker
 	QString Bsa_Packer::name() const
 	{
 		return QStringLiteral("BSA Packer");
+	}
+
+	std::vector<std::shared_ptr<const MOBase::IPluginRequirement>> Bsa_Packer::requirements() const
+	{
+		return {
+			Requirements::basic([](MOBase::IOrganizer* organizer) {
+				return supportsArchivePacking(organizer);
+			}, QStringLiteral("Requires a game with built-in archive support or a game-provided archive handler."))
+		};
 	}
 
 	QString Bsa_Packer::author() const
@@ -59,7 +87,7 @@ namespace BsaPacker
 
 	QString Bsa_Packer::tooltip() const
 	{
-		return tr("Transform loose files into a Bethesda Softworks Archive file (.bsa/.ba2).");
+		return tr("Transform loose files into a supported archive file for the current game.");
 	}
 
 	QIcon Bsa_Packer::icon() const
@@ -74,6 +102,12 @@ namespace BsaPacker
 
 	void Bsa_Packer::display() const
 	{
+		if (!supportsArchivePacking(this->m_Organizer)) {
+			QMessageBox::information(nullptr, QStringLiteral("BSA Packer"),
+				tr("Archive packing is not supported for the current game."));
+			return;
+		}
+
 		const auto injector = di::make_injector(
 			di::bind<IModContext>.to(this->m_ModContext.get()),
 			di::bind<ISettingsService>.to(this->m_SettingsService.get()),

@@ -20,7 +20,8 @@ namespace BsaPacker
 		[[nodiscard]] static QString ArchiveNameValidator(
 			const QString& modName,
 			const QString& pluginName,
-			const bool needsNewName);
+			const bool needsNewName,
+			const bool requiresFullFilename);
 		[[nodiscard]] static bool CanOverwriteFile(
 			const QString& filePath,
 			const QString& fileName);
